@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using stats_gamersclub.API.Models;
 
 namespace stats_gamersclub.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/stats")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -18,16 +20,62 @@ namespace stats_gamersclub.API.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet]
+        [Route("players/player/{playerId}")]
+        public ActionResult<Player> StatsFromPlayer(string playerId)
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile($"appsettings.json");
+            var configuration = builder.Build();
+
+            var seleniumConfigurations = new SeleniumConfigurations();
+
+            new ConfigureFromConfigurationOptions<SeleniumConfigurations>(
+                configuration.GetSection("SeleniumConfigurations"))
+                    .Configure(seleniumConfigurations);
+
+            var playerController = new PlayerController(seleniumConfigurations);
+
+            playerController.LoadPage(playerId);
+            var playerStats = playerController.GetStatsFromPlayer(playerId);
+
+            playerController.Exit();
+
+            return playerStats;
+        }
+
+        [HttpGet]
+        [Route("players/player/{playerId1}/player/{playerId2}/compare")]
+        public ActionResult<List<Player>> ComparePlayers(string playerId1, string playerId2)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile($"appsettings.json");
+            var configuration = builder.Build();
+
+            var seleniumConfigurations = new SeleniumConfigurations();
+                
+            new ConfigureFromConfigurationOptions<SeleniumConfigurations>(
+                configuration.GetSection("SeleniumConfigurations"))
+                    .Configure(seleniumConfigurations);
+
+            var playerController = new PlayerController(seleniumConfigurations);
+            
+            List<Player> playerList = new List<Player>();
+            
+            List<string> playerIds = new List<string>();
+            playerIds.Add(playerId1);
+            playerIds.Add(playerId2);
+
+            foreach(var playerId in playerIds) {
+                playerController.LoadPage(playerId);
+                playerList.Add(playerController.GetStatsFromPlayer(playerId));
+            }
+            
+            playerController.Exit();
+
+            return playerList;
         }
     }
 }
