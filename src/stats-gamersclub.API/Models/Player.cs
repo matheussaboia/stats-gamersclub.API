@@ -2,6 +2,7 @@
 {
     public class Player
     {
-        public PlayerStats PlayerStats { get; set; }
+        public string nickname { get; set; }
+        public List<string> Stats { get; set; }
     }
 }

@@ -37,8 +37,10 @@ namespace stats_gamersclub.API.Controllers
 
             var playerController = new PlayerController(seleniumConfigurations);
 
+            playerController.HomePageLoad();
+
             playerController.LoadPage(playerId);
-            var playerStats = playerController.GetStatsFromPlayer(playerId);
+            var playerStats = playerController.GetStatsFromPlayer();
 
             playerController.Exit();
 
@@ -61,7 +63,9 @@ namespace stats_gamersclub.API.Controllers
                     .Configure(seleniumConfigurations);
 
             var playerController = new PlayerController(seleniumConfigurations);
-            
+
+            playerController.HomePageLoad();
+
             List<Player> playerList = new List<Player>();
             
             List<string> playerIds = new List<string>();
@@ -70,7 +74,7 @@ namespace stats_gamersclub.API.Controllers
 
             foreach(var playerId in playerIds) {
                 playerController.LoadPage(playerId);
-                playerList.Add(playerController.GetStatsFromPlayer(playerId));
+                playerList.Add(playerController.GetStatsFromPlayer());
             }
             
             playerController.Exit();
