@@ -5,14 +5,8 @@ using stats_gamersclub.API.Models;
 namespace stats_gamersclub.API.Controllers
 {
     [ApiController]
-    [Route("api/stats")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
         private readonly ILogger<WeatherForecastController> _logger;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
@@ -20,9 +14,9 @@ namespace stats_gamersclub.API.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        [Route("players/player/{playerId}")]
-        public ActionResult<Player> StatsFromPlayer(string playerId)
+        [HttpPost]
+        [Route("/api/stats/players/player/{playerId}")]
+        public ActionResult<Player> StatsFromPlayer(string playerId, [FromQuery] string month)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -39,17 +33,17 @@ namespace stats_gamersclub.API.Controllers
 
             playerController.HomePageLoad();
 
-            playerController.LoadPage(playerId);
-            var playerStats = playerController.GetStatsFromPlayer();
+            playerController.LoadPage(playerId, month);
+            Player player = playerController.GetStatsFromPlayer();
 
             playerController.Exit();
 
-            return playerStats;
+            return player;
         }
 
-        [HttpGet]
-        [Route("players/player/{playerId1}/player/{playerId2}/compare")]
-        public ActionResult<List<Player>> ComparePlayers(string playerId1, string playerId2)
+        [HttpPost]
+        [Route("/api/stats/players/compare")]
+        public ActionResult<List<Player>> StatsFromPlayers([FromBody] PlayerCompareDTO playerCompareDTO)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -67,13 +61,9 @@ namespace stats_gamersclub.API.Controllers
             playerController.HomePageLoad();
 
             List<Player> playerList = new List<Player>();
-            
-            List<string> playerIds = new List<string>();
-            playerIds.Add(playerId1);
-            playerIds.Add(playerId2);
 
-            foreach(var playerId in playerIds) {
-                playerController.LoadPage(playerId);
+            foreach(var playerId in playerCompareDTO.playerCompare.playersIds) {
+                playerController.LoadPage(playerId, playerCompareDTO.playerCompare.monthStats);
                 playerList.Add(playerController.GetStatsFromPlayer());
             }
             

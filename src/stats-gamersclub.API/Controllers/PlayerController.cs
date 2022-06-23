@@ -30,7 +30,7 @@ namespace stats_gamersclub.API.Controllers
             _driver.FindElement(By.XPath("/html/body/div[2]/div[9]/div/div/div[5]/div/main/div/div[2]/button")).Click();
         }
 
-        public void LoadPage(string id)
+        public void LoadPage(string id, string monthStats)
         {
             _driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);
             _driver.Navigate().GoToUrl($"{_configurations.UrlGamersClub}{_configurations.UrlPlayerGamersClub}{id}");
@@ -59,7 +59,7 @@ namespace stats_gamersclub.API.Controllers
 
             try {
                 foreach (var month in months) {
-                    if (month.Text.Equals("MAR 2022")) {
+                    if (month.Text.Equals(monthStats)) {
                         month.Click();
                         return;
                     }
@@ -79,6 +79,7 @@ namespace stats_gamersclub.API.Controllers
             player.Stats = new List<string>();
 
             player.nickname = _driver.FindElement(By.XPath("/html/body/div[2]/div[9]/div/div/div[15]/div[2]/div[1]/section[1]/div[1]/div[3]/div/div/span")).Text;
+            player.level = _driver.FindElement(By.XPath("/html/body/div[2]/div[9]/div/div/div[15]/div[2]/div[1]/section[1]/div[2]/div[1]/div/div/div[1]/div/div[1]/span")).Text;
 
             var wait2 = new WebDriverWait(_driver, TimeSpan.FromSeconds(15));
 
