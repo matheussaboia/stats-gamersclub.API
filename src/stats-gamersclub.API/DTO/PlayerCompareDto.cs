@@ -1,6 +1,6 @@
-﻿namespace stats_gamersclub.API.Models
+﻿namespace stats_gamersclub.API.DTO
 {
-    public class PlayerCompareDTO
+    public class PlayerCompareDto
     {
         public PlayerCompare playerCompare { get; set; }
     }

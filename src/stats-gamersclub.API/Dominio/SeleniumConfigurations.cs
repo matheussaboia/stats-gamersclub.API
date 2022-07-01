@@ -1,4 +1,4 @@
-﻿namespace stats_gamersclub.API.Models
+﻿namespace stats_gamersclub.API.Dominio
 {
     public class SeleniumConfigurations
     {

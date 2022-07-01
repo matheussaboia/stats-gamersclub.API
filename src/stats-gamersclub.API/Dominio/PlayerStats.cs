@@ -1,8 +1,7 @@
-﻿namespace stats_gamersclub.API.Models
+﻿namespace stats_gamersclub.API.Dominio
 {
     public class PlayerStats
     {
-        public string nickname { get; set; }
         public string kdr { get; set; }
         public string adr { get; set; }
         public string kast { get; set; }

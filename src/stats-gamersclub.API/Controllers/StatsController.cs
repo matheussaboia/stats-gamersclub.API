@@ -1,15 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using stats_gamersclub.API.Models;
+using stats_gamersclub.API.CasosDeUso;
+using stats_gamersclub.API.DTO;
+using stats_gamersclub.API.Dominio;
 
 namespace stats_gamersclub.API.Controllers
 {
     [ApiController]
-    public class WeatherForecastController : ControllerBase
+    public class StatsController : ControllerBase
     {
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<StatsController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public StatsController(ILogger<StatsController> logger)
         {
             _logger = logger;
         }
@@ -29,7 +31,7 @@ namespace stats_gamersclub.API.Controllers
                 configuration.GetSection("SeleniumConfigurations"))
                     .Configure(seleniumConfigurations);
 
-            var playerController = new PlayerController(seleniumConfigurations);
+            var playerController = new PlayerCasoDeUso(seleniumConfigurations);
 
             playerController.HomePageLoad();
 
@@ -43,7 +45,7 @@ namespace stats_gamersclub.API.Controllers
 
         [HttpPost]
         [Route("/api/stats/players/compare")]
-        public ActionResult<List<Player>> StatsFromPlayers([FromBody] PlayerCompareDTO playerCompareDTO)
+        public ActionResult<List<Player>> StatsFromPlayers([FromBody] PlayerCompareDto playerCompareDTO)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -56,7 +58,7 @@ namespace stats_gamersclub.API.Controllers
                 configuration.GetSection("SeleniumConfigurations"))
                     .Configure(seleniumConfigurations);
 
-            var playerController = new PlayerController(seleniumConfigurations);
+            var playerController = new PlayerCasoDeUso(seleniumConfigurations);
 
             playerController.HomePageLoad();
 
