@@ -7,7 +7,7 @@
 
     public class PlayerCompare
     {
-        public List<string> playersIds { get; set; }
-        public string monthStats { get; set; }
+        public List<string> players { get; set; }
+        public string month { get; set; }
     }
 }

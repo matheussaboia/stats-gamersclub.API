@@ -2,9 +2,8 @@
 {
     public class SeleniumConfigurations
     {
-        public string PathDriver { get; set; }
         public string UrlGamersClub { get; set; }
-        public string UrlPlayerGamersClub { get; set; }
+        public string PathGamersClubPlayer { get; set; }
         public int Timeout { get; set; }
     }
 }

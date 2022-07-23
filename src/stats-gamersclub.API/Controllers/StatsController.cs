@@ -64,8 +64,8 @@ namespace stats_gamersclub.API.Controllers
 
             List<Player> playerList = new List<Player>();
 
-            foreach(var playerId in playerCompareDTO.playerCompare.playersIds) {
-                playerController.LoadPage(playerId, playerCompareDTO.playerCompare.monthStats);
+            foreach(var playerId in playerCompareDTO.playerCompare.players) {
+                playerController.LoadPage(playerId, playerCompareDTO.playerCompare.month);
                 playerList.Add(playerController.GetStatsFromPlayer());
             }
             

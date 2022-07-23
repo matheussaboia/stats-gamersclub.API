@@ -33,7 +33,7 @@ namespace stats_gamersclub.API.CasosDeUso
         public void LoadPage(string id, string monthStats)
         {
             _driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);
-            _driver.Navigate().GoToUrl($"{_configurations.UrlGamersClub}{_configurations.UrlPlayerGamersClub}{id}");
+            _driver.Navigate().GoToUrl($"{_configurations.UrlGamersClub}{_configurations.PathGamersClubPlayer}{id}");
 
             _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
 
@@ -102,21 +102,6 @@ namespace stats_gamersclub.API.CasosDeUso
 
 
             return player;
-
-            //return new Player {
-            //    PlayerStats = new PlayerStats {
-            //        nickname = _driver.FindElement(By.XPath("/html/body/div[2]/div[9]/div/div/div[15]/div[2]/div[1]/section[1]/div[1]/div[3]/div/div/span")).Text,
-            //        kdr = _driver.FindElement(By.XPath("/html/body/div[2]/div[9]/div/div/div[15]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/div[3]/div[1]/div/div/div[2]")).Text,
-            //        adr = _driver.FindElement(By.XPath("/html/body/div[2]/div[9]/div/div/div[15]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/div[3]/div[2]/div/div/div[2]")).Text,
-            //        kast = _driver.FindElement(By.XPath("/html/body/div[2]/div[9]/div/div/div[15]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/div[3]/div[3]/div/div/div[2]")).Text,
-            //        multKill = _driver.FindElement(By.XPath("/html/body/div[2]/div[9]/div/div/div[15]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/div[3]/div[4]/div/div/div[2]")).Text,
-            //        firstKill = _driver.FindElement(By.XPath("/html/body/div[2]/div[9]/div/div/div[15]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/div[3]/div[5]/div/div/div[2]")).Text,
-            //        clutch = _driver.FindElement(By.XPath("/html/body/div[2]/div[9]/div/div/div[15]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/div[3]/div[6]/div/div/div[2]")).Text,
-            //        hs = _driver.FindElement(By.XPath("/html/body/div[2]/div[9]/div/div/div[15]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/div[3]/div[7]/div/div/div[2]")).Text,
-            //        precisao = _driver.FindElement(By.XPath("/html/body/div[2]/div[9]/div/div/div[15]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/div[3]/div[8]/div/div/div[2]")).Text,
-            //        bombasPlantadas = _driver.FindElement(By.XPath("/html/body/div[2]/div[9]/div/div/div[15]/div[2]/div[2]/div/div[2]/div/div/div/div[2]/div[3]/div[9]/div/div/div[2]")).Text,
-            //    }
-            //};
         }
 
         public void Exit()
