@@ -3,11 +3,15 @@ using stats_gamersclub.Domain.Comum.Results;
 
 namespace stats_gamersclub.Domain.Commands {
     public class GetPlayersStatsToCompareCommand : IRequest<IResult> {
-        public PlayerCompare playerCompare { get; set; }
+        public PlayerCompare PlayerCompare { get; set; }
     }
 
     public class PlayerCompare {
-        public List<string> players { get; set; }
-        public string month { get; set; }
+        public List<PlayerGC> Players { get; set; }
+    }
+
+    public class PlayerGC {
+        public string Id { get; set; }
+        public string Month { get; set; }
     }
 }

@@ -17,17 +17,23 @@ namespace stats_gamersclub.API.Controllers {
             _mediator = mediator;
         }
 
-        [HttpGet]
-        [Route("players/{playerId}/month/{month}")]
-        public async Task<IActionResult> GetStatsFromPlayer(string playerId, string month) {
-            var response = await _mediator.Send(new GetPlayerStatsCommand { PlayerId = playerId, Month = month });
+        [HttpPost]
+        [Route("players/months")]
+        public async Task<IActionResult> RetrieveMonthsOfStatsFromPlayer([FromBody] GetMonthFromPlayerStats playerIds) {
+            var response = await _mediator.Send(playerIds);
             return this.ProcessResult(response);
         }
 
-        [HttpPost]
-        [Route("/players/compare")]
-        public async Task<IActionResult> GetStatsFromPlayersToCompare([FromBody] GetPlayersStatsToCompareCommand playersCompare) {
+        //[HttpPost]
+        //[Route("players/{playerId}/month/{month}")]
+        //public async Task<IActionResult> RetrieveStatsFromPlayer(string playerId, string month) {
+        //    var response = await _mediator.Send(new GetPlayerStatsCommand { PlayerId = playerId, Month = month });
+        //    return this.ProcessResult(response);
+        //}
 
+        [HttpPost]
+        [Route("players")]
+        public async Task<IActionResult> RetrieveStatsFromPlayers([FromBody] GetPlayersStatsToCompareCommand playersCompare) {
             var response = await _mediator.Send(playersCompare);
             return this.ProcessResult(response);
         }

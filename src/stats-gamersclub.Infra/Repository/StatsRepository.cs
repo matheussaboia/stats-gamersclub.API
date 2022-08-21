@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using stats_gamersclub.Domain.Player;
+using stats_gamersclub.Domain.Players;
 using stats_gamersclub.Infra.Comum.Configs;
 
 namespace stats_gamersclub.Infra.Repository {
@@ -20,6 +21,37 @@ namespace stats_gamersclub.Infra.Repository {
             //Go to the GamersClub homepage
             _driver.Navigate().GoToUrl($"{AppSettings.GamersClub?.Url}");
             _driver.FindElement(By.XPath("/html/body/div[2]/div[9]/div/div/div[5]/div/main/div/div[2]/button")).Click();
+        }
+
+        public List<string> LoadPlayerMonth(string id) {
+
+            //Go to the player path
+            _driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);
+            _driver.Navigate().GoToUrl($"{AppSettings.GamersClub?.Url}{AppSettings.GamersClub?.PathPlayer}{id}");
+
+            //Go to the stats box
+            IJavaScriptExecutor executor = (IJavaScriptExecutor)_driver;
+            var boxElement = _driver.FindElement(By.XPath("//*[@id=\"GamersClubStatsBox\"]"));
+            executor.ExecuteScript("arguments[0].scrollIntoView(true);", boxElement);
+
+            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(15));
+            IWebElement webElement = wait.Until(drv => drv.FindElement(By.CssSelector("button.StatsBoxTab__Button:nth-child(2)")));
+            executor.ExecuteScript("arguments[0].click();", webElement);
+
+            var wait2 = new WebDriverWait(_driver, TimeSpan.FromSeconds(15));
+            IWebElement webElementMonth = wait2.Until(drv => drv.FindElement(By.CssSelector("div.StatsBoxDropDownMenu:nth-child(1) > button:nth-child(1)")));
+            executor.ExecuteScript("arguments[0].click();", webElementMonth);
+
+            Thread.Sleep(3000);
+            var wait3 = new WebDriverWait(_driver, TimeSpan.FromSeconds(60));
+            var months = wait3.Until(drv => _driver.FindElement(By.CssSelector(".StatsBoxDropDownMenu__List")).FindElement(By.TagName("ul")).FindElements(By.TagName("li")));
+
+            var listMonths = new List<string>();
+            foreach (var month in months) {
+                listMonths.Add(month.Text);
+            }
+
+            return listMonths;
         }
 
         public void LoadPlayerPage(string id, string monthStats) {
@@ -42,18 +74,15 @@ namespace stats_gamersclub.Infra.Repository {
             executor.ExecuteScript("arguments[0].click();", webElementMonth);
 
             Thread.Sleep(3000);
+
             var wait3 = new WebDriverWait(_driver, TimeSpan.FromSeconds(60));
             var months = wait3.Until(drv => _driver.FindElement(By.CssSelector(".StatsBoxDropDownMenu__List")).FindElement(By.TagName("ul")).FindElements(By.TagName("li")));
+
+            var month = months.Where(c => c.Text == monthStats).FirstOrDefault()!;
             
-            var t = new List<string>();
             try {
-                foreach (var month in months) {
-                    t.Add(month.Text);
-                    if (month.Text.Equals(monthStats)) {
-                        month.Click();
-                        return;
-                    }
-                }
+                month.Click();
+                return;
             }
             catch {
                 Exit();

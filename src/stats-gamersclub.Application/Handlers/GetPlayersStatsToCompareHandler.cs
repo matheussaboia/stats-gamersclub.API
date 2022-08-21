@@ -14,8 +14,8 @@ namespace stats_gamersclub.Application.Handlers {
 
             statsRepository.LoadHomePage();
 
-            foreach (var playerId in request.playerCompare.players) {
-                statsRepository.LoadPlayerPage(playerId, request.playerCompare.month);
+            foreach (var playerStats in request.PlayerCompare.Players) {
+                statsRepository.LoadPlayerPage(playerStats.Id, playerStats.Month);
                 playerList.Add(statsRepository.GetStatsFromPlayer());
             }
 
