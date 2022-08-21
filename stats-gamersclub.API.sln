@@ -7,6 +7,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A0229187-E8B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "stats-gamersclub.API", "src\stats-gamersclub.API\stats-gamersclub.API.csproj", "{D544C4B1-2D33-4541-AEF5-C7F2F0AF5933}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "stats-gamersclub.Domain", "src\stats-gamersclub.Domain\stats-gamersclub.Domain.csproj", "{5E76F8C4-AA27-4BC9-956F-42A5FA409939}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "stats-gamersclub.Infra", "src\stats-gamersclub.Infra\stats-gamersclub.Infra.csproj", "{AC23AAD4-89BC-4D54-94C1-CB57503ADE7D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "stats-gamersclub.Application", "src\stats-gamersclub.Application\stats-gamersclub.Application.csproj", "{BC2FC92F-0108-4783-A18B-F2F3BF04FEC2}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C4F34E1B-E9F7-4780-8E54-8357CE9E153A}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
@@ -23,12 +29,27 @@ Global
 		{D544C4B1-2D33-4541-AEF5-C7F2F0AF5933}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D544C4B1-2D33-4541-AEF5-C7F2F0AF5933}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D544C4B1-2D33-4541-AEF5-C7F2F0AF5933}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E76F8C4-AA27-4BC9-956F-42A5FA409939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E76F8C4-AA27-4BC9-956F-42A5FA409939}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E76F8C4-AA27-4BC9-956F-42A5FA409939}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E76F8C4-AA27-4BC9-956F-42A5FA409939}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC23AAD4-89BC-4D54-94C1-CB57503ADE7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC23AAD4-89BC-4D54-94C1-CB57503ADE7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC23AAD4-89BC-4D54-94C1-CB57503ADE7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC23AAD4-89BC-4D54-94C1-CB57503ADE7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC2FC92F-0108-4783-A18B-F2F3BF04FEC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC2FC92F-0108-4783-A18B-F2F3BF04FEC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC2FC92F-0108-4783-A18B-F2F3BF04FEC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC2FC92F-0108-4783-A18B-F2F3BF04FEC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D544C4B1-2D33-4541-AEF5-C7F2F0AF5933} = {A0229187-E8BC-4F23-B10C-8969E556C295}
+		{5E76F8C4-AA27-4BC9-956F-42A5FA409939} = {A0229187-E8BC-4F23-B10C-8969E556C295}
+		{AC23AAD4-89BC-4D54-94C1-CB57503ADE7D} = {A0229187-E8BC-4F23-B10C-8969E556C295}
+		{BC2FC92F-0108-4783-A18B-F2F3BF04FEC2} = {A0229187-E8BC-4F23-B10C-8969E556C295}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FB8D460B-DD24-4121-8BD6-3021DA1E5E53}

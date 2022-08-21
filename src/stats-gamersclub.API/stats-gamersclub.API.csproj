@@ -11,8 +11,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Selenium.Support" Version="4.2.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\stats-gamersclub.Application\stats-gamersclub.Application.csproj" />
+    <ProjectReference Include="..\stats-gamersclub.Domain\stats-gamersclub.Domain.csproj" />
+    <ProjectReference Include="..\stats-gamersclub.Infra\stats-gamersclub.Infra.csproj" />
   </ItemGroup>
 
 </Project>

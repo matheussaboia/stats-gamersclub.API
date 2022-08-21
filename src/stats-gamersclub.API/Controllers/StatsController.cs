@@ -1,77 +1,35 @@
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using stats_gamersclub.API.CasosDeUso;
-using stats_gamersclub.API.DTO;
-using stats_gamersclub.API.Dominio;
+using stats_gamersclub.API.Configurations.Extensions;
+using stats_gamersclub.Domain.Commands;
 
-namespace stats_gamersclub.API.Controllers
-{
+namespace stats_gamersclub.API.Controllers {
+
+    [Route("api/v1/stats")]
     [ApiController]
     public class StatsController : ControllerBase
     {
         private readonly ILogger<StatsController> _logger;
+        private readonly IMediator _mediator;
 
-        public StatsController(ILogger<StatsController> logger)
-        {
+        public StatsController(ILogger<StatsController> logger, IMediator mediator) {
             _logger = logger;
+            _mediator = mediator;
+        }
+
+        [HttpGet]
+        [Route("players/{playerId}/month/{month}")]
+        public async Task<IActionResult> GetStatsFromPlayer(string playerId, string month) {
+            var response = await _mediator.Send(new GetPlayerStatsCommand { PlayerId = playerId, Month = month });
+            return this.ProcessResult(response);
         }
 
         [HttpPost]
-        [Route("/api/stats/players/player/{playerId}")]
-        public ActionResult<Player> StatsFromPlayer(string playerId, [FromQuery] string month)
-        {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile($"appsettings.json");
-            var configuration = builder.Build();
+        [Route("/players/compare")]
+        public async Task<IActionResult> GetStatsFromPlayersToCompare([FromBody] GetPlayersStatsToCompareCommand playersCompare) {
 
-            var seleniumConfigurations = new SeleniumConfigurations();
-
-            new ConfigureFromConfigurationOptions<SeleniumConfigurations>(
-                configuration.GetSection("SeleniumConfigurations"))
-                    .Configure(seleniumConfigurations);
-
-            var playerController = new PlayerCasoDeUso(seleniumConfigurations);
-
-            playerController.HomePageLoad();
-
-            playerController.LoadPage(playerId, month);
-            Player player = playerController.GetStatsFromPlayer();
-
-            playerController.Exit();
-
-            return player;
-        }
-
-        [HttpPost]
-        [Route("/api/stats/players/compare")]
-        public ActionResult<List<Player>> StatsFromPlayers([FromBody] PlayerCompareDto playerCompareDTO)
-        {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile($"appsettings.json");
-            var configuration = builder.Build();
-
-            var seleniumConfigurations = new SeleniumConfigurations();
-                
-            new ConfigureFromConfigurationOptions<SeleniumConfigurations>(
-                configuration.GetSection("SeleniumConfigurations"))
-                    .Configure(seleniumConfigurations);
-
-            var playerController = new PlayerCasoDeUso(seleniumConfigurations);
-
-            playerController.HomePageLoad();
-
-            List<Player> playerList = new List<Player>();
-
-            foreach(var playerId in playerCompareDTO.playerCompare.players) {
-                playerController.LoadPage(playerId, playerCompareDTO.playerCompare.month);
-                playerList.Add(playerController.GetStatsFromPlayer());
-            }
-            
-            playerController.Exit();
-
-            return playerList;
+            var response = await _mediator.Send(playersCompare);
+            return this.ProcessResult(response);
         }
     }
 }
