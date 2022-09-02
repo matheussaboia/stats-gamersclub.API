@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using stats_gamersclub.Domain.Comum.Entidades;
 using stats_gamersclub.Domain.Comum.Results;
+using System.Text;
 using IResult = stats_gamersclub.Domain.Comum.Results.IResult;
 
 namespace stats_gamersclub.API.Configurations.Extensions {
@@ -13,10 +15,23 @@ namespace stats_gamersclub.API.Configurations.Extensions {
                 ResultStatus.Unauthorized => controller.Unauthorized(),
                 ResultStatus.Forbidden => controller.Forbid(),
                 ResultStatus.BadRequest => controller.BadRequest(),
-                ResultStatus.UnprocessableEntity => controller.UnprocessableEntity(),
+                ResultStatus.UnprocessableEntity => ProcessUnprocessableEntity(controller, result),
                 ResultStatus.InternalServerError => controller.StatusCode((int)System.Net.HttpStatusCode.InternalServerError, result.Errors),
                 _ => throw new NotSupportedException($"Result {result.Status} conversion is not supported."),
             };
+        }
+
+        private static IActionResult ProcessUnprocessableEntity(ControllerBase controller, IResult result) {
+            StringBuilder stringBuilder = new StringBuilder();
+            
+            foreach (string error in result.Errors) {
+                stringBuilder.Append(error);
+            }
+
+            return controller.UnprocessableEntity(new GenericResponse {
+                Codigo = StatusCodes.Status422UnprocessableEntity,
+                Mensagem = stringBuilder.ToString()
+            });
         }
     }
 }

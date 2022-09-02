@@ -19,21 +19,14 @@ namespace stats_gamersclub.API.Controllers {
 
         [HttpPost]
         [Route("players/months")]
-        public async Task<IActionResult> RetrieveMonthsOfStatsFromPlayer([FromBody] GetMonthFromPlayerStats playerIds) {
+        public async Task<IActionResult> RetrieveMonthsStatsOfPlayers([FromBody] GetMonthFromPlayerStatsCommand playerIds) {
             var response = await _mediator.Send(playerIds);
             return this.ProcessResult(response);
         }
 
-        //[HttpPost]
-        //[Route("players/{playerId}/month/{month}")]
-        //public async Task<IActionResult> RetrieveStatsFromPlayer(string playerId, string month) {
-        //    var response = await _mediator.Send(new GetPlayerStatsCommand { PlayerId = playerId, Month = month });
-        //    return this.ProcessResult(response);
-        //}
-
         [HttpPost]
         [Route("players")]
-        public async Task<IActionResult> RetrieveStatsFromPlayers([FromBody] GetPlayersStatsToCompareCommand playersCompare) {
+        public async Task<IActionResult> RetrievePlayersStatsByMonth([FromBody] GetPlayersStatsCommand playersCompare) {
             var response = await _mediator.Send(playersCompare);
             return this.ProcessResult(response);
         }

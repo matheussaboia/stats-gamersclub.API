@@ -20,7 +20,7 @@ namespace stats_gamersclub.Infra.Repository {
         public void LoadHomePage() {
             //Go to the GamersClub homepage
             _driver.Navigate().GoToUrl($"{AppSettings.GamersClub?.Url}");
-            _driver.FindElement(By.XPath("/html/body/div[2]/div[9]/div/div/div[5]/div/main/div/div[2]/button")).Click();
+            _driver.FindElement(By.CssSelector(".WasdButton--block")).Click();
         }
 
         public List<string> LoadPlayerMonth(string id) {
@@ -97,8 +97,9 @@ namespace stats_gamersclub.Infra.Repository {
 
             Player player = new Player();
 
-            player.nickname = _driver.FindElement(By.CssSelector(".gc-profile-user-name")).Text;
-            player.level = _driver.FindElement(By.ClassName("gc-featured-sidebar-media")).FindElement(By.TagName("span")).Text;
+            player.Id = _driver.FindElement(By.CssSelector(".gc-profile-user-id")).Text.Split("ID: ")[1];
+            player.Nickname = _driver.FindElement(By.CssSelector(".gc-profile-user-name")).Text;
+            player.Level = _driver.FindElement(By.ClassName("gc-featured-sidebar-media")).FindElement(By.TagName("span")).Text;
 
             //foreach (var stat in stats) {
             //    player.Stats.Add(wait2.Until(drv => stat.FindElement(By.ClassName("StatsBoxPlayerInfoItem"))
