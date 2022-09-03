@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using stats_gamersclub.Domain.Commands;
 using stats_gamersclub.Domain.Comum.Results;
-using stats_gamersclub.Domain.Players;
-using stats_gamersclub.Infra.Repository;
+using stats_gamersclub.Domain.Entities.Players;
+using stats_gamersclub.Infra.WebScraper;
 
 namespace stats_gamersclub.Application.Handlers {
     public class GetPlayersMonthStatsHandler : IRequestHandler<GetMonthFromPlayerStatsCommand, IResult> {
@@ -10,18 +10,13 @@ namespace stats_gamersclub.Application.Handlers {
 
             var haveSamePlayers = request.Players.GroupBy(x => x).Any(g => g.Count() > 1);
             if (haveSamePlayers)
-                return Result<string>.UnprocessableEntity("Não é possível utilizar GC Id repetido.");
+                return Result<string>.UnprocessableEntity("Não é possível utilizar GC Id's iguais.");
 
-            var statsRepository = new StatsRepository();
-            var listMonths = new List<PlayerMonth>();
+            var statsWebScraper = new StatsWebScraper();
+            var listMonths = PlayerMonth.Create(statsWebScraper, request.Players);
+            statsWebScraper.Exit();
 
-            foreach (var player in request.Players) {
-                listMonths.Add(new PlayerMonth { PlayerId = player, Month = statsRepository.LoadPlayerMonth(player) });
-            }
-            
-            statsRepository.Exit();
-
-            return Result<List<PlayerMonth>>.Success(listMonths);
+            return Result<List<PlayerMonth>>.Success(listMonths.GetValue()!);
         }
     }
 }

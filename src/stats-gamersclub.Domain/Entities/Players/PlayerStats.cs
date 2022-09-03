@@ -1,4 +1,4 @@
-﻿namespace stats_gamersclub.Domain.Player
+﻿namespace stats_gamersclub.Domain.Entities.Player
 {
     public class PlayerStats
     {

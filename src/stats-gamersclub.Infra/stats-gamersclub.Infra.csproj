@@ -15,4 +15,8 @@
     <ProjectReference Include="..\stats-gamersclub.Domain\stats-gamersclub.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repository\" />
+  </ItemGroup>
+
 </Project>
